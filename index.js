@@ -63,7 +63,7 @@ document.getElementById("popElement").addEventListener('click', () => {
     if (el === undefined) {
         Logger.log(`try to pop element. Stack is empty`);
     } else {
-        STACK_DOM.firstElementChild.remove();
+        document.getElementById("stack").firstElementChild.remove();
         Logger.log(`pop element ${el}`);
     }
 
