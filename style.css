@@ -1,0 +1,50 @@
+header {
+    margin: 50px;
+    text-align: center;
+    color: #7a7474;
+}
+
+button {
+    box-shadow: 1px 1px 6px #8b8585;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.main {
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.stack {
+    margin: 0 50px;
+}
+
+.stack_element {
+    background-color: #c7c4c4;
+    margin: 5px;
+    border-radius: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+.actions {
+    margin: 0 50px;
+}
+
+.action {
+    margin: 10px;
+}
+
+.action:nth-child(3), .action:nth-child(4) {
+    display: flex;
+    justify-content: space-between;
+}
+
+#popElement {
+    width: 100%;
+}
