@@ -7,21 +7,37 @@ class Stack {
     }
 
     push(value) {
+        if (!value) {
+            console.error(`Push() failed. Empty value`);
+            return;
+        }
         this.storage[this.count] = value;
         this.count++;
+        console.log(`push element - ${value}`);
     }
 
     pop() {
-        if (this.count === 0) return undefined;
-
-        let value = this.storage[this.count - 1];
-        this.count--;
-        this.storage.length = this.count;
-        return value;
+        try {
+            if (!this.count) {
+                throw new Error("Pop() failed. Stack is empty");;
+            }
+            this.count--;
+            let value = this.storage[this.count];
+            this.storage.length = this.count;
+            console.log(`pop element - ${value}`);
+            return value;
+        }
+        catch (error) {
+            console.error(`Pop() failed. ${error.message}`);
+        }
     }
 
     peek() {
-        return this.storage[this.count - 1];
+        try {
+            return this.storage[this.count - 1];
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     getLength() {
@@ -29,28 +45,32 @@ class Stack {
     }
 }
 
-class Logger {
+var console = (function (oldCons) {
+    return {
+        log: function (text) {
+            oldCons.log(`${new Date().toLocaleString()}: ${text}`);
+        },
+        error: function (text) {
+            oldCons.error(`${new Date().toLocaleString()}: ${text}`);
+        }
+    };
+}(window.console));
 
-    static log(text) {
-        console.log(`${new Date().toLocaleString()}: ${text}`);
-    }
-}
+window.console = console;
 
 let stack = new Stack();
 
 document.getElementById("pushElement").addEventListener('click', () => {
 
-    let el = document.getElementById("pushedElement").value;
-    document.getElementById("pushedElement").value = '';
+    let pushedElement = document.getElementById("pushedElement");
 
-    if (!el) {
-        return
+    stack.push(pushedElement.value);
+
+    if (pushedElement.value) {
+        addStackDivElement(pushedElement.value);
     }
 
-    stack.push(el);
-    Logger.log(`push element ${el}`);
-
-    createStackElement(el);
+    pushedElement.value = '';
 
     showPeekElement();
     showStackLength();
@@ -58,13 +78,12 @@ document.getElementById("pushElement").addEventListener('click', () => {
 
 document.getElementById("popElement").addEventListener('click', () => {
 
-    let el = stack.pop();
-    
-    if (el === undefined) {
-        Logger.log(`try to pop element. Stack is empty`);
-    } else {
+    stack.pop();
+
+    try {
         document.getElementById("stack").firstElementChild.remove();
-        Logger.log(`pop element ${el}`);
+    } catch {
+
     }
 
     showPeekElement();
@@ -84,7 +103,7 @@ function showStackLength() {
     document.getElementById("length").value = stack.getLength();
 }
 
-function createStackElement(el) {
+function addStackDivElement(el) {
     let div = document.createElement('div');
     div.className = "stack_element";
     div.innerHTML = el;
