@@ -19,7 +19,7 @@ class Stack {
     pop() {
         try {
             if (!this.count) {
-                throw new Error("Pop() failed. Stack is empty");;
+                throw new Error("Stack is empty");;
             }
             this.count--;
             let value = this.storage[this.count];
